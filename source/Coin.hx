@@ -1,6 +1,8 @@
 package;
 
 import flixel.FlxSprite;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
 /**
@@ -14,6 +16,16 @@ class Coin extends FlxSprite
 	{
 		super(X, Y);
 		loadGraphic(AssetPaths.coin__png, false, 8, 8);
+	}
+	
+	override public function kill():Void {
+		alive = false;
+		FlxTween.tween(this, { alpha: 0, y: y - 16 }, .33,
+					   { ease: FlxEase.circOut, onComplete: finishKill });
+	}
+	
+	private function finishKill(_):Void {
+		exists = false;
 	}
 	
 }
