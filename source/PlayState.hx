@@ -25,6 +25,7 @@ class PlayState extends FlxState
 		_mWalls.setTileProperties(2, FlxObject.ANY);
 		add(_mWalls);
 		_player = new Player();
+		add(_player);
 		_map.loadEntities(placeEntities, "entities");
 		super.create();
 	}
