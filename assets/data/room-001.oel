@@ -47,5 +47,8 @@
     <coin id="14" x="480" y="112" />
     <coin id="15" x="512" y="112" />
     <coin id="16" x="512" y="352" />
+    <enemy id="17" x="256" y="256" etype="0" />
+    <enemy id="18" x="496" y="336" etype="0" />
+    <enemy id="19" x="496" y="160" etype="1" />
   </entities>
 </level>

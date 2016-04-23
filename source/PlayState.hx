@@ -17,6 +17,7 @@ class PlayState extends FlxState
 	private var _map:FlxOgmoLoader;
 	private var _mWalls:FlxTilemap;
 	private var _grpCoins:FlxTypedGroup<Coin>;
+	private var	_grpEnemies:FlxTypedGroup<Enemy>;
 
 	override public function create():Void
 	{
@@ -28,6 +29,8 @@ class PlayState extends FlxState
 		add(_mWalls);
 		_grpCoins = new FlxTypedGroup<Coin>();
 		add(_grpCoins);
+		_grpEnemies = new FlxTypedGroup<Enemy>();
+		add(_grpEnemies);
 		_player = new Player();
 		add(_player);
 		_map.loadEntities(placeEntities, "entities");
@@ -40,6 +43,18 @@ class PlayState extends FlxState
 		super.update(elapsed);
 		FlxG.collide(_player, _mWalls);
 		FlxG.overlap(_player, _grpCoins, playerTouchCoin);
+		FlxG.collide(_grpEnemies, _mWalls);
+		_grpEnemies.forEachAlive(checkEnemyVision);
+	}
+	
+	function checkEnemyVision(e:Enemy):Void 
+	{
+		if (_mWalls.ray(e.getMidpoint(), _player.getMidpoint())) {
+			e.seesPlayer = true;
+			e.playerPos.copyFrom(_player.getMidpoint());
+		} else {
+			e.seesPlayer = false;
+		}
 	}
 	
 	private function placeEntities(entityName:String, entityData:Xml):Void {
@@ -50,6 +65,8 @@ class PlayState extends FlxState
 			_player.y = y;
 		} else if (entityName == "coin") {
 			_grpCoins.add(new Coin(x + 4, y + 4));
+		} else if (entityName == "enemy") {
+			_grpEnemies.add(new Enemy(x + 4, y, Std.parseInt(entityData.get("etype"))));
 		}
 	}
 	private function playerTouchCoin(P:Player, C:Coin):Void {
