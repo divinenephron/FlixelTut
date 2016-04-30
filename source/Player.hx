@@ -3,14 +3,18 @@ package;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.system.FlxSound;
 import flixel.util.FlxColor;
 import flixel.math.FlxPoint;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
 class Player extends FlxSprite {
       public var speed:Float = 200;
+	  private var _sndStep:FlxSound;
+	  
       public function new(?X:Float=0, ?Y:Float=0){
              super(X, Y);
+			 _sndStep = FlxG.sound.load(AssetPaths.step__wav);
              loadGraphic(AssetPaths.player__png, true, 16, 16);
              setFacingFlip(FlxObject.LEFT, false, false);
              setFacingFlip(FlxObject.RIGHT, true, false);
@@ -68,7 +72,8 @@ class Player extends FlxSprite {
                  velocity.rotate(FlxPoint.weak(0, 0), mA);
 
                  if ((velocity.x != 0 || velocity.y != 0) && touching == FlxObject.NONE) {
-                    switch (facing) {
+                    _sndStep.play();
+					switch (facing) {
                         case FlxObject.LEFT, FlxObject.RIGHT:
                              animation.play("lr");
                         case FlxObject.UP:

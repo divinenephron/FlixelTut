@@ -20,11 +20,13 @@ class MenuState extends FlxState
 		_txtTitle.screenCenter(X);
 		add(_txtTitle);
 		
-		_btnPlay = new FlxButton(0,0,"Play", clickPlay);
+		_btnPlay = new FlxButton(0, 0, "Play", clickPlay);
+		_btnPlay.onUp.sound = FlxG.sound.load(AssetPaths.select__wav);
 		_btnPlay.screenCenter();
 		add(_btnPlay);
 		
 		_btnOptions = new FlxButton(0, 0, "Options", clickOptions);
+		_btnOptions.onUp.sound = FlxG.sound.load(AssetPaths.select__wav);
 		_btnOptions.x = (FlxG.width / 2) + 10;
 		_btnOptions.y = FlxG.height - _btnOptions.height - 10;
 		add(_btnOptions);

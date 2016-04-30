@@ -6,6 +6,7 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.tile.FlxTilemap;
 import flixel.ui.FlxButton;
@@ -27,6 +28,7 @@ class PlayState extends FlxState
 	private var _combatHud:CombatHUD;
 	private var _ending:Bool;
 	private var _won:Bool;
+	private var _sndCoin:FlxSound;
 
 	override public function create():Void
 	{
@@ -48,6 +50,7 @@ class PlayState extends FlxState
 		add(_hud);
 		_combatHud = new CombatHUD();
 		add(_combatHud);
+		_sndCoin = FlxG.sound.load(AssetPaths.coin__wav);
 		super.create();
 	}
 
@@ -112,6 +115,7 @@ class PlayState extends FlxState
 			_money++;
 			_hud.updateHUD(_health, _money);
 			C.kill();
+			_sndCoin.play(true);
 		}
 	}
 	

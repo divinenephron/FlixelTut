@@ -18,5 +18,6 @@ class Main extends Sprite
 			FlxG.sound.volume = _save.data.volume;
 		}
 		_save.close();
+		FlxG.sound.playMusic(AssetPaths.HaxeFlixel_Tutorial_Game__mp3, 1, true);
 	}
 }

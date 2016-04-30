@@ -6,6 +6,7 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.math.FlxVelocity;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.system.FlxSound;
 using flixel.util.FlxSpriteUtil;
 
 /**
@@ -19,6 +20,7 @@ class Enemy extends FlxSprite
 	private var _brain:FSM;
 	private var _idleTmr:Float;
 	private var _moveDir:Float;
+	private var _sndStep:FlxSound;
 	public var seesPlayer:Bool = false;
 	public var playerPos(default, null):FlxPoint;
 	
@@ -32,6 +34,8 @@ class Enemy extends FlxSprite
 		animation.add("d", [0, 1, 0, 2], 6, false);
 		animation.add("lr", [3, 4, 3, 5], 6, false);
 		animation.add("u", [6, 7, 6, 8], 6, false);
+		_sndStep = FlxG.sound.load(AssetPaths.step__wav, .4);
+		_sndStep.proximity(x, y, FlxG.camera.target, FlxG.width * .6);
 		drag.x = drag.y = 10;
 		width = 8;
 		height = 14;
@@ -106,6 +110,10 @@ class Enemy extends FlxSprite
 		}
 		_brain.update();
 		super.update(elapsed);
+		if ((velocity.x != 0 || velocity.y != 0) && touching == FlxObject.NONE) {
+			_sndStep.setPosition(x + frameWidth / 2, y + height);
+			_sndStep.play();
+		}
 	}
 	
 	public function changeEnemy(EType:Int):Void
